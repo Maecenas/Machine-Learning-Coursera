@@ -23,11 +23,45 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+% Solution 1 - indexing
 
+C_vec = [0.01 0.03 0.1 0.3 1 3 10 30];
+sigma_vec = [0.01 0.03 0.1 0.3 1 3 10 30];
+errors = zeros(length(C_vec),length(sigma_vec));
 
+for i = 1:length(C_vec)
+  for j = 1:length(sigma_vec)
+    model = svmTrain(X, y, C_vec(i), @(x1, x2) gaussianKernel(x1, x2, sigma_vec(j)));
+    predictions = svmPredict(model, Xval);
+    errors(i, j) = mean(double(predictions ~= yval));
+  end
+end
 
+[~, ind] = min(errors(:));
+[i, j] = ind2sub([size(errors, 1) size(errors, 2)], ind);
+C = C_vec(i);
+sigma = sigma_vec(j);
 
+% Solution 2 - 
+%param = [0.01 0.03 0.1 0.3 1 3 10 30];
 
+%for C_val = param
+%  for sigma_val = param
+%    model = svmTrain(X, y, C_val, @(x1, x2) gaussianKernel(x1, x2, sigma_val));
+%    predictions = svmPredict(model, Xval);
+%    error = mean(double(predictions ~= yval));
+%    if ~exist('min_error', 'var') || isempty(min_error)
+%        min_error = error;
+%    elseif min_error > error
+%           min_error = error;
+%           C = C_val;
+%           sigma = sigma_val;
+%    end
+%  end
+%end  
+
+C     % C = 1
+sigma     % sigma = 0.1
 
 % =========================================================================
 
