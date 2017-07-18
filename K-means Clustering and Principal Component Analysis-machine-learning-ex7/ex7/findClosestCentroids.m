@@ -21,11 +21,37 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+% Note:
+% For distances in Octave
+% sqrt(sum(C1-C2).^2))
+% V = C1-C2; sqrt(V * V');
+% norm(C1-C2)
 
+% Solution 1-
+Ones = ones(K,1);
+for i = 1:length(idx)
+  T = centroids.- Ones * X(i, :);
+  dist = diag(T*T');  % try pdist2 in Matlab
+  [~, idx(i)] = min(dist);
+end
 
+% Solution 2-
+%for i = 1:length(idx)
+%  T = [];
+%  for j = 1:K
+%    T = [T; X(i, :)];
+%  end
+%  [~, idx(i)] = min(sum((T-centroids).^2, 2));
+%end
 
-
-
+% Solution 3-
+%for i = 1:length(idx)
+%  for j = 1:K
+%    T = X(i, :) - centroids(j, :);
+%    dist(i, j) = T * T';
+%  end
+%end
+%[~, idx] = min(dist,[],2);
 
 % =============================================================
 
