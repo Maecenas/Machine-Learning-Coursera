@@ -40,20 +40,13 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+h = (X*Theta'-Y).*R;
+J = (h(:)'*h(:) + lambda * (Theta(:)' * Theta(:) + X(:)' * X(:)))/2;
 
+X_grad = h * Theta + lambda * X;
+Theta_grad = h' * X + lambda * Theta;
 
-
-
-
-
-
-
-
-
-
-
-
-
+% ex8_cofi.m line 199 - change "Ynorm" to "Y" - no idea why it doesn't work
 
 % =============================================================
 
